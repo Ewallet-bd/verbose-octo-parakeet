@@ -75,7 +75,7 @@ $stmt_get->close();
             </div>
             
             <button type="submit" name="update_profile" class="btn btn-success">তথ্য আপডেট করুন</button>
-            <a href="customer_dashboard.php" class="btn" style="background-color: #6c757d; color: white;">ড্যাশবোর্ডে ফিরে যান</a>
+            <a href="customer_dashboard.php" class="btn btn-secondary">ড্যাশবোর্ডে ফিরে যান</a>
         </form>
     </div>
 </div>

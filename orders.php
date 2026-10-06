@@ -226,7 +226,7 @@ $orders_log = $stmt_log->get_result();
             <div class="form-group" style="flex: 1;"><label for="start_date_filter">শুরুর তারিখ:</label><input type="date" id="start_date_filter" name="start_date" value="<?php echo htmlspecialchars($filter_start_date); ?>" class="form-control"></div>
             <div class="form-group" style="flex: 1;"><label for="end_date_filter">শেষ তারিখ:</label><input type="date" id="end_date_filter" name="end_date" value="<?php echo htmlspecialchars($filter_end_date); ?>" class="form-control"></div>
             <button type="submit" class="btn btn-primary">ফিল্টার</button>
-            <a href="orders.php" class="btn" style="background-color: #6c757d; color: white;">রিসেট</a>
+            <a href="orders.php" class="btn btn-secondary">রিসেট</a>
         </form>
     </div>
 </div>
@@ -263,11 +263,11 @@ $orders_log = $stmt_log->get_result();
                         
                         echo '<td style="white-space: nowrap;">';
                         if ($log['customer_commission'] > 0 && $log['customer_commission_status'] == 'pending') {
-                            echo '<a href="complete_commission.php?order_id=' . $log['id'] . '" class="btn btn-success" style="padding: 0.4rem; font-size: 0.8rem; margin-bottom: 5px;" 
+                            echo '<a href="complete_commission.php?order_id=' . $log['id'] . '" class="btn btn-success btn-sm" 
                                    onclick="return confirm(\'আপনি কি নিশ্চিত? এটি কাস্টমারকে $' . number_format($log['customer_commission'], 2) . ' কমিশন দেবে।\')">Complete Commission</a><br>';
                         }
-                        echo '<a href="edit_order.php?id=' . $log['id'] . '" class="btn btn-primary" style="padding: 0.4rem 0.6rem; font-size: 0.8rem; margin-left: 5px;">এডিট</a>
-                              <a href="orders.php?delete_id=' . $log['id'] . '" class="btn" style="background-color: #e74c3c; color: white; padding: 0.4rem 0.6rem; font-size: 0.8rem; margin-left: 5px;" 
+                        echo '<a href="edit_order.php?id=' . $log['id'] . '" class="btn btn-primary btn-sm">এডিট</a>
+                              <a href="orders.php?delete_id=' . $log['id'] . '" class="btn btn-danger btn-sm" 
                                  onclick="return confirm(\'আপনি কি নিশ্চিত যে এই অর্ডারটি ডিলিট করতে চান?\')">ডিলিট</a>
                               </td>';
                         echo "</tr>";

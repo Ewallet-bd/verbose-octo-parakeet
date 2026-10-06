@@ -125,7 +125,7 @@ function build_pagination_links($total_pages, $current_page, $start_date, $end_d
             <div class="form-group"><label for="start_date">শুরুর তারিখ:</label><input type="date" id="start_date" name="start_date" value="<?php echo htmlspecialchars($start_date); ?>" class="form-control"></div>
             <div class="form-group"><label for="end_date">শেষ তারিখ:</label><input type="date" id="end_date" name="end_date" value="<?php echo htmlspecialchars($end_date); ?>" class="form-control"></div>
             <button type="submit" class="btn btn-primary">ফিল্টার</button>
-            <a href="customer_statement.php" class="btn" style="background-color: #6c757d; color: white;">রিসেট</a>
+            <a href="customer_statement.php" class="btn btn-secondary">রিসেট</a>
         </form>
     </div>
 </div>

@@ -54,7 +54,7 @@ $completed_commissions = $stmt_log->get_result();
             <div class="form-group" style="flex: 1;"><label for="start_date_filter">শুরুর তারিখ:</label><input type="date" id="start_date_filter" name="start_date" value="<?php echo htmlspecialchars($filter_start_date); ?>" class="form-control"></div>
             <div class="form-group" style="flex: 1;"><label for="end_date_filter">শেষ তারিখ:</label><input type="date" id="end_date_filter" name="end_date" value="<?php echo htmlspecialchars($filter_end_date); ?>" class="form-control"></div>
             <button type="submit" class="btn btn-primary">ফিল্টার</button>
-            <a href="completed_customer_comm.php" class="btn" style="background-color: #6c757d; color: white;">রিসেট</a>
+            <a href="completed_customer_comm.php" class="btn btn-secondary">রিসেট</a>
         </form>
     </div>
 </div>

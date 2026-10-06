@@ -158,7 +158,7 @@ $prepayments_log = $stmt_log->get_result();
             <div class="form-group" style="flex: 1;"><label for="start_date_filter">শুরুর তারিখ:</label><input type="date" id="start_date_filter" name="start_date" value="<?php echo htmlspecialchars($filter_start_date); ?>" class="form-control"></div>
             <div class="form-group" style="flex: 1;"><label for="end_date_filter">শেষ তারিখ:</label><input type="date" id="end_date_filter" name="end_date" value="<?php echo htmlspecialchars($filter_end_date); ?>" class="form-control"></div>
             <button type="submit" class="btn btn-primary">ফিল্টার</button>
-            <a href="prepayments.php" class="btn" style="background-color: #6c757d; color: white;">রিসেট</a>
+            <a href="prepayments.php" class="btn btn-secondary">রিসেট</a>
         </form>
     </div>
 </div>
@@ -196,8 +196,8 @@ $prepayments_log = $stmt_log->get_result();
                         echo "<td>$" . number_format($log['flat_fee_amount'], 2) . "</td>";
                         echo "<td><strong>$" . number_format($log['amount_credited'], 2) . "</strong></td>";
                         echo '<td style="white-space: nowrap;">
-                                <a href="edit_prepayment.php?id=' . $log['id'] . '" class="btn btn-primary" style="padding: 0.4rem 0.6rem; font-size: 0.8rem;">এডিট</a>
-                                <a href="prepayments.php?delete_id=' . $log['id'] . '" class="btn" style="background-color: #e74c3c; color: white; padding: 0.4rem 0.6rem; font-size: 0.8rem;" 
+                                <a href="edit_prepayment.php?id=' . $log['id'] . '" class="btn btn-primary btn-sm">এডিট</a>
+                                <a href="prepayments.php?delete_id=' . $log['id'] . '" class="btn btn-danger btn-sm" 
                                    onclick="return confirm(\'আপনি কি নিশ্চিত যে এই এন্ট্রিটি ডিলিট করতে চান?\')">ডিলিট</a>
                               </td>';
                         echo "</tr>";

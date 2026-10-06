@@ -127,7 +127,7 @@ if ($customer_id > 0) {
             </div>
             
             <button type="submit" name="update_customer" class="btn btn-success">তথ্য আপডেট করুন</button>
-            <a href="customers.php" class="btn" style="background-color: #6c757d; color: white;">বাতিল</a>
+            <a href="customers.php" class="btn btn-secondary">বাতিল</a>
         </form>
         <?php endif; ?>
     </div>

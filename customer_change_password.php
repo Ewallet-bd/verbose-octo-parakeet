@@ -93,7 +93,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_password'])) {
             </div>
             
             <button type="submit" name="update_password" class="btn btn-success">পাসওয়ার্ড আপডেট করুন</button>
-            <a href="customer_dashboard.php" class="btn" style="background-color: #6c757d; color: white;">ড্যাশবোর্ডে ফিরে যান</a>
+            <a href="customer_dashboard.php" class="btn btn-secondary">ড্যাশবোর্ডে ফিরে যান</a>
         </form>
     </div>
 </div>

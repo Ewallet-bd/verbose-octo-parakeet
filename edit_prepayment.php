@@ -122,7 +122,7 @@ if ($prepayment_id > 0) {
                 </div>
             </div>
             <button type="submit" name="update_prepayment" class="btn btn-success">এন্ট্রি আপডেট করুন</button>
-            <a href="prepayments.php" class="btn" style="background-color: #6c757d; color: white;">বাতিল</a>
+            <a href="prepayments.php" class="btn btn-secondary">বাতিল</a>
         </form>
         <?php endif; ?>
     </div>

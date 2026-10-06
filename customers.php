@@ -104,12 +104,12 @@ $result_customers = $mysqli->query($sql_get_list);
                         
                         // --- "স্টেটমেন্ট" বাটন সহ ---
                         echo '<td style="white-space: nowrap;">
-                                <a href="customer_statement.php?id=' . $row['id'] . '" class="btn btn-info" style="padding: 0.4rem 0.6rem; font-size: 0.8rem;" target="_blank">স্টেটমেন্ট</a>
-                                <a href="edit_customer.php?id=' . $row['id'] . '" class="btn btn-primary" style="padding: 0.4rem 0.6rem; font-size: 0.8rem;">এডিট</a>
-                                <a href="admin_impersonate.php?user_id=' . $row['user_id'] . '" class="btn btn-success" style="padding: 0.4rem 0.6rem; font-size: 0.8rem;" target="_blank">প্যানেল দেখুন</a>
+                                <a href="customer_statement.php?id=' . $row['id'] . '" class="btn btn-info btn-sm" target="_blank">স্টেটমেন্ট</a>
+                                <a href="edit_customer.php?id=' . $row['id'] . '" class="btn btn-primary btn-sm">এডিট</a>
+                                <a href="admin_impersonate.php?user_id=' . $row['user_id'] . '" class="btn btn-success btn-sm" target="_blank">প্যানেল দেখুন</a>
                                 <a href="toggle_customer_status.php?user_id=' . $row['user_id'] . '&status=' . $row['status'] . '" 
-                                   class="btn ' . $toggle_btn_class . '" style="padding: 0.4rem 0.6rem; font-size: 0.8rem; color: white;">' . $toggle_btn_text . '</a>
-                                <a href="customers.php?delete_user_id=' . $row['user_id'] . '" class="btn" style="background-color: #e74c3c; color: white; padding: 0.4rem 0.6rem; font-size: 0.8rem;" 
+                                   class="btn ' . $toggle_btn_class . ' btn-sm">' . $toggle_btn_text . '</a>
+                                <a href="customers.php?delete_user_id=' . $row['user_id'] . '" class="btn btn-danger btn-sm" 
                                    onclick="return confirm(\'সতর্কবার্তা! আপনি কি নিশ্চিত যে এই কাস্টমারকে ডিলিট করতে চান?\')">ডিলিট</a>
                               </td>';
                         echo "</tr>";

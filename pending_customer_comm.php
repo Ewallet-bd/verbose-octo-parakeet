@@ -68,7 +68,7 @@ $pending_commissions = $stmt_log->get_result();
             <div class="form-group" style="flex: 1;"><label for="start_date_filter">শুরুর তারিখ:</label><input type="date" id="start_date_filter" name="start_date" value="<?php echo htmlspecialchars($filter_start_date); ?>" class="form-control"></div>
             <div class="form-group" style="flex: 1;"><label for="end_date_filter">শেষ তারিখ:</label><input type="date" id="end_date_filter" name="end_date" value="<?php echo htmlspecialchars($filter_end_date); ?>" class="form-control"></div>
             <button type="submit" class="btn btn-primary">ফিল্টার</button>
-            <a href="pending_customer_comm.php" class="btn" style="background-color: #6c757d; color: white;">রিসেট</a>
+            <a href="pending_customer_comm.php" class="btn btn-secondary">রিসেট</a>
         </form>
     </div>
 </div>
@@ -103,7 +103,7 @@ $pending_commissions = $stmt_log->get_result();
                         echo "<td><span style='color:red; font-weight: bold;'>" . ucfirst($row['customer_commission_status']) . "</span></td>";
                         // 'Complete Commission' বাটন
                         echo '<td>
-                                <a href="complete_commission.php?order_id=' . $row['id'] . '&return_to=pending" class="btn btn-success" style="padding: 0.4rem 0.6rem; font-size: 0.8rem;"
+                                <a href="complete_commission.php?order_id=' . $row['id'] . '&return_to=pending" class="btn btn-success btn-sm"
                                    onclick="return confirm(\'আপনি কি নিশ্চিত যে এই কমিশনটি কমপ্লিট করতে চান?\')">Complete</a>
                               </td>';
                         echo "</tr>";

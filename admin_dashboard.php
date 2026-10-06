@@ -101,37 +101,6 @@ $total_wallet_balance = $mysqli->query($sql_total_balance)->fetch_assoc()['total
 
 ?>
 
-<style>
-.dashboard-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
-}
-.stat-card {
-    background-color: #ffffff; padding: 1.5rem; border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-}
-.stat-card h3 {
-    margin: 0 0 0.5rem 0; font-size: 1rem; color: #555; font-weight: 600;
-}
-.stat-card .value {
-    font-size: 2rem; font-weight: bold; color: #333;
-}
-.stat-card.pending-inv { border-left: 5px solid #f39c12; }
-.stat-card.pending-comm { border-left: 5px solid #e74c3c; }
-.stat-card.total-fee { border-left: 5px solid #2ecc71; }
-.stat-card.total-customers { border-left: 5px solid #3498db; }
-.stat-card.total-balance { border-left: 5px solid #9b59b6; }
-.stat-card.received { border-left: 5px solid #1abc9c; }
-.stat-card.cust-comm-pending { border-left: 5px solid #e74c3c; }
-.stat-card.cust-comm-comp { border-left: 5px solid #1abc9c; }
-.filter-form {
-    display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-end;
-}
-.filter-form .form-group { margin-bottom: 0; flex: 1; min-width: 200px; }
-.filter-form .btn { flex-shrink: 0; height: 40px; }
-</style>
-
 <div class="welcome-message">
     <h2>স্বাগতম, <strong><?php echo htmlspecialchars($_SESSION['admin_username']); ?></strong>!</h2>
 </div>
@@ -162,7 +131,7 @@ $total_wallet_balance = $mysqli->query($sql_total_balance)->fetch_assoc()['total
                 <input type="date" id="end_date" name="end_date" value="<?php echo htmlspecialchars($end_date); ?>" class="form-control">
             </div>
             <button type="submit" class="btn btn-primary">ফিল্টার</button>
-            <a href="admin_dashboard.php" class="btn" style="background-color: #6c757d;">রিসেট</a>
+            <a href="admin_dashboard.php" class="btn btn-secondary">রিসেট</a>
         </form>
     </div>
 </div>

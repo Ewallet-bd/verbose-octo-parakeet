@@ -11,33 +11,9 @@ if (isset($_SESSION['customer_logged_in']) && $_SESSION['customer_logged_in'] ==
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>কাস্টমার লগইন</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif; background-color: #f0f2f5;
-            display: flex; justify-content: center; align-items: center;
-            height: 100vh; margin: 0;
-        }
-        .login-container {
-            background-color: #ffffff; padding: 2rem; border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            width: 300px; text-align: center;
-        }
-        .login-container h2 { margin-bottom: 1.5rem; color: #333; }
-        .login-container input[type="text"],
-        .login-container input[type="password"] {
-            width: 100%; padding: 0.75rem; margin-bottom: 1rem;
-            border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box;
-        }
-        .login-container input[type="submit"] {
-            width: 100%; padding: 0.75rem; background-color: #3498db;
-            border: none; border-radius: 4px; color: white;
-            font-size: 1rem; font-weight: bold; cursor: pointer;
-        }
-        .login-container input[type="submit"]:hover { background-color: #2980b9; }
-        .error-message { color: red; margin-bottom: 1rem; }
-    </style>
+    <link rel="stylesheet" href="assets/style.css">
 </head>
-<body>
+<body class="login-page customer">
     <div class="login-container">
         <h2>কাস্টমার লগইন</h2>
 

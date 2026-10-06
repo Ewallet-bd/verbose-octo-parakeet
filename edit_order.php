@@ -129,7 +129,7 @@ if ($order_id > 0) {
                 <input type="number" id="bdt_amount" name="bdt_amount" value="<?php echo htmlspecialchars($entry['bdt_amount']); ?>" step="0.01" required>
             </div>
             <button type="submit" name="update_order" class="btn btn-success">অর্ডার আপডেট করুন</button>
-            <a href="orders.php" class="btn" style="background-color: #6c757d; color: white;">বাতিল</a>
+            <a href="orders.php" class="btn btn-secondary">বাতিল</a>
         </form>
         <?php endif; ?>
     </div>
