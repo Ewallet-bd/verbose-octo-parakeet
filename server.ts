@@ -32,7 +32,16 @@ async function startServer() {
   app.set('trust proxy', 1);
 
   // Middleware
-  app.use(cors());
+  // CORS: set CORS_ORIGINS (comma-separated) to restrict; the dashboard is same-origin so
+  // production defaults to no cross-origin access. Browser extensions (chrome-extension://) are allowed.
+  const corsOrigins = (process.env.CORS_ORIGINS || '').split(',').map(o => o.trim()).filter(Boolean);
+  app.use(cors({
+    origin: (origin, cb) => {
+      if (!origin || !isProduction && corsOrigins.length === 0) return cb(null, true);
+      if (origin.startsWith('chrome-extension://') || corsOrigins.includes(origin)) return cb(null, true);
+      cb(null, false);
+    },
+  }));
   app.use(express.json());
 
   // Public health endpoint

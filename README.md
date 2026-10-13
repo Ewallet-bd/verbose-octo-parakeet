@@ -35,7 +35,7 @@ The backend and frontend are tightly integrated. Run the development server:
 ```bash
 npm run dev
 ```
-*(The SQLite database `sqlite.db` is automatically created and migrations/tables are auto-initialized on first boot. The default admin user `admin` with password `admin123` is automatically seeded).*
+*(The SQLite database `sqlite.db` is automatically created and migrations/tables are auto-initialized on first boot. The default admin user `admin` is seeded with `ADMIN_INITIAL_PASSWORD` (or a random password printed once in the startup log)).*
 
 ### 7. Test NEW REQUEST
 In your Telegram group, send the following message:
@@ -58,6 +58,6 @@ The bot will automatically parse the ID, wallet, amount, and payment method, sav
 ### 9. View Admin Dashboard
 Open the web preview (or `http://localhost:3000`). Log in using:
 - **Username**: admin
-- **Password**: admin123
+- **Password**: value of `ADMIN_INITIAL_PASSWORD`, or the one printed in the first startup log
 
 You can view the daily reports, charts, and search transactions by ID or Wallet Number in the Transactions tab.

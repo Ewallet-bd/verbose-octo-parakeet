@@ -3,6 +3,16 @@ import { drizzle } from 'drizzle-orm/libsql';
 import * as schema from './schema';
 import bcrypt from 'bcryptjs';
 import fs from 'fs';
+import crypto from 'crypto';
+
+// Initial admin password: ADMIN_INITIAL_PASSWORD from env, otherwise a random one printed once.
+function initialAdminPassword(): string {
+  const fromEnv = process.env.ADMIN_INITIAL_PASSWORD;
+  if (fromEnv && fromEnv.length >= 8) return fromEnv;
+  const generated = crypto.randomBytes(9).toString('base64url');
+  console.warn(`[Security] Generated initial admin password (shown once, change it after login): ${generated}`);
+  return generated;
+}
 import mysql, { Pool as MysqlPool } from 'mysql2/promise';
 
 export type DatabaseEngine = 'mysql' | 'sqlite';
@@ -273,12 +283,12 @@ export const initializeDb = async () => {
       // Seed default admin in MySQL
       const [adminRows]: any = await mysqlPool.query("SELECT id FROM users WHERE username = 'admin' LIMIT 1");
       if (!adminRows || adminRows.length === 0) {
-        const hash = bcrypt.hashSync('admin123', 10);
+        const hash = bcrypt.hashSync(initialAdminPassword(), 10);
         await mysqlPool.query(
           "INSERT INTO users (username, password, role, status, created_at) VALUES ('admin', ?, 'ADMIN', 'ACTIVE', ?)",
           [hash, Date.now()]
         );
-        console.log("[MySQL] Seeded default admin user: admin / admin123");
+        console.log("[MySQL] Seeded admin user 'admin' (see ADMIN_INITIAL_PASSWORD / startup log for password)");
       }
       return;
     } catch (tableErr: any) {
@@ -397,12 +407,12 @@ export const initializeDb = async () => {
   // Auto-seed admin user in SQLite if doesn't exist
   const adminRes = await sq.execute("SELECT * FROM users WHERE username = 'admin'");
   if (adminRes.rows.length === 0) {
-    const hash = bcrypt.hashSync('admin123', 10);
+    const hash = bcrypt.hashSync(initialAdminPassword(), 10);
     await sq.execute({
       sql: "INSERT INTO users (username, password, role, created_at) VALUES ('admin', ?, 'ADMIN', ?)",
       args: [hash, Date.now()]
     });
-    console.log("[SQLite] Seeded default admin user: admin / admin123");
+    console.log("[SQLite] Seeded admin user 'admin'");
   }
 };
 

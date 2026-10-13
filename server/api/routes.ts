@@ -60,18 +60,14 @@ export async function recalculateGroupBalance(chatId: string) {
     .where(eq(groupLedgerEntries.chatId, chatId))
     .orderBy(groupLedgerEntries.createdAt);
   
-  console.log(`Recalculating balance for ${chatId}. Found ${allEntries.length} entries.`);
   let runningBalance = 0;
   for (const ent of allEntries) {
-    console.log(`Entry: ${ent.id}, Type: ${ent.type}, Amount: ${ent.amount}, Current Running Balance: ${runningBalance}`);
-    if (ent.type === 'DEPOSIT') {
-      runningBalance += ent.amount;
-    } else {
-      runningBalance -= ent.amount;
+    runningBalance += ent.type === 'DEPOSIT' ? ent.amount : -ent.amount;
+    if (ent.balanceAfter !== runningBalance) {
+      await db.update(groupLedgerEntries)
+        .set({ balanceAfter: runningBalance })
+        .where(eq(groupLedgerEntries.id, ent.id));
     }
-    await db.update(groupLedgerEntries)
-      .set({ balanceAfter: runningBalance })
-      .where(eq(groupLedgerEntries.id, ent.id));
   }
 
   // Check if balance entry exists for this group
@@ -231,7 +227,7 @@ const safeEqual = (a: string, b: string) => {
   return crypto.timingSafeEqual(ha, hb);
 };
 
-const authMiddleware = (req: any, res: any, next: any) => {
+const authMiddleware = async (req: any, res: any, next: any) => {
   const token = req.headers.authorization?.split(' ')[1];
   if (!token) return res.status(401).json({ error: 'Unauthorized' });
 
@@ -242,8 +238,13 @@ const authMiddleware = (req: any, res: any, next: any) => {
   }
 
   try {
-    const decoded = jwt.verify(token, getJwtSecret());
-    req.user = decoded;
+    const decoded: any = jwt.verify(token, getJwtSecret());
+    // Re-check the account so deactivated/deleted users and role changes apply immediately.
+    const cur = await db.select().from(users).where(eq(users.id, decoded.id)).limit(1);
+    if (cur.length === 0 || cur[0].status === 'INACTIVE') {
+      return res.status(401).json({ error: 'Account disabled' });
+    }
+    req.user = { ...decoded, role: cur[0].role };
     next();
   } catch (err) {
     res.status(401).json({ error: 'Invalid token' });
