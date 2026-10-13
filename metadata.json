@@ -1,0 +1,6 @@
+{
+  "name": "Telegram Payment Router & Ledger Manager",
+  "description": "Automated Telegram payment routing, withdrawal management, separate group ledgers, and transaction reporting in Bangladesh Standard Time (BST).",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

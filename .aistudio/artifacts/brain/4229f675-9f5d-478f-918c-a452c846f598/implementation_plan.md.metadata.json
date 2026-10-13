@@ -1,0 +1,6 @@
+{
+  "summary": "Detailed implementation plan for integrating Playwright headless automation into the Node.js TypeScript application. Features automated login with session storage persistence, dual OTP submission via Telegram bot and web dashboard, automatic database deduplication in MySQL/SQLite, real-time Telegram alerts for new withdrawal orders, and an operator control console in the web UI.",
+  "updatedAt": "2026-10-13T09:32:53.977819196Z",
+  "requestFeedback": true,
+  "userFacing": true
+}
