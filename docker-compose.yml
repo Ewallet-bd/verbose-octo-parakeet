@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: telecom_bot_app
+    restart: unless-stopped
+    ports:
+      - "${PORT:-3010}:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - JWT_SECRET=${JWT_SECRET:-change_me_to_a_secure_jwt_secret}
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN:-}
+      - AUTHORIZED_CHAT_ID=${AUTHORIZED_CHAT_ID:-}
+      - PADDLE_OCR_URL=http://paddleocr:5000/ocr
+    volumes:
+      - ./data:/app/data
+    depends_on:
+      - paddleocr
+
+  paddleocr:
+    build:
+      context: ./ocr_service
+      dockerfile: Dockerfile
+    container_name: telecom_paddleocr_engine
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
