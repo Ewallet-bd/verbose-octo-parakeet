@@ -1,0 +1,10 @@
+__pycache__/
+.idea/
+.venv/
+logs/
+credentials.env
+otp.json
+withdraw_sent.json
+pendingw.json
+pending-withdraw.json
+unreconciled.json
