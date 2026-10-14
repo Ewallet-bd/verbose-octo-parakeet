@@ -15,6 +15,15 @@ if (Test-Path "credentials.env") {
     }
 }
 
+# Single-instance guard: two bots would double-confirm deposits
+$running = Get-CimInstance Win32_Process -Filter "Name like 'python%'" |
+    Where-Object { $_.CommandLine -match "main\.py" }
+if ($running) { Write-Host "Bot already running (PID $($running.ProcessId)). Exiting."; exit 0 }
+
+# Chrome (CDP) must be up first
+& "$PSScriptRoot\start_chrome.ps1"
+if ($LASTEXITCODE -ne 0) { Write-Error "Chrome not ready"; exit 1 }
+
 # Use the venv interpreter directly
 $python = Join-Path $PSScriptRoot ".venv\Scripts\python.exe"
 if (!(Test-Path $python)) { $python = "python" }
@@ -23,6 +32,9 @@ if (!(Test-Path "logs")) { New-Item -ItemType Directory logs | Out-Null }
 
 # NOTE: python logs to logs\main.log / logs\otp_collector.log itself.
 # Console output goes to *_console.log so two writers never share one file.
+$otpRunning = Get-CimInstance Win32_Process -Filter "Name like 'python%'" |
+    Where-Object { $_.CommandLine -match "otp_collector\.py" }
+if (-not $otpRunning) {
 Write-Host "Starting OTP Collector..."
 Start-Process $python `
     -ArgumentList "otp_collector.py" `
@@ -30,6 +42,7 @@ Start-Process $python `
     -WindowStyle Hidden `
     -RedirectStandardOutput "logs\otp_console.log" `
     -RedirectStandardError  "logs\otp_err.log"
+}
 
 Start-Sleep -Seconds 3
 

@@ -23,7 +23,7 @@ PENDINGW_FILE = "pendingw.json"
 WITHDRAW_SENT_FILE = "withdraw_sent.json"
 
 # ---------- PLAYWRIGHT ----------
-CDP_ENDPOINT = "http://localhost:9222"
+CDP_ENDPOINT = "http://127.0.0.1:9222"
 
 # ---------- TIMING CONFIG ----------
 API_CHECK_INTERVAL = 5        # 🔁 Deposit scan every 5 seconds
