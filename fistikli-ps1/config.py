@@ -54,3 +54,8 @@ WITHDRAW_MAX_AMOUNT = 30000
 # ---------- CHECK-PAYOUT BACKOFF (404 = no pending payout yet) ----------
 CHECK_BACKOFF_STEPS = [5, 15, 30, 60, 120]   # seconds between re-checks per tx
 TX_FORGET_AFTER = 3600                        # drop per-tx state after 1h
+
+# ---------- SCAN SPEED ----------
+CHECK_WORKERS = 5             # parallel check-payout calls
+CHECK_TIMEOUT = 8             # seconds per check-payout call
+MAX_CHECKS_PER_SCAN = 15      # remaining rows are picked up on the next scan

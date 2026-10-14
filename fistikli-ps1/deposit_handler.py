@@ -1,6 +1,7 @@
 import time
 import re
 import random
+from concurrent.futures import ThreadPoolExecutor
 from collections import deque
 from logger import setup_logger
 from api_client import call_api
@@ -11,6 +12,9 @@ from config import (
     DEPOSIT_MAX_AMOUNT,
     CHECK_BACKOFF_STEPS,
     TX_FORGET_AFTER,
+    CHECK_WORKERS,
+    CHECK_TIMEOUT,
+    MAX_CHECKS_PER_SCAN,
 )
 
 log = setup_logger("deposit", "logs/deposit.log")
@@ -113,7 +117,11 @@ def _scan_and_queue(th_page):
     now = time.time()
     _cleanup_state(now)
 
+    # ---------- phase 1: cheap DOM read, pick candidates ----------
+    candidates = []
     for row in th_page.query_selector_all("tr"):
+        if len(candidates) >= MAX_CHECKS_PER_SCAN:
+            break  # rest are handled on the next scan
         try:
             confirm_btn = row.query_selector("a:has-text('Confirm')")
             if not confirm_btn or not confirm_btn.is_visible():
@@ -131,6 +139,7 @@ def _scan_and_queue(th_page):
                 ext_trn_id in DONE_TX
                 or ext_trn_id in PROCESSING_TX
                 or any(q["ext_trn_id"] == ext_trn_id for q in CONFIRMATION_QUEUE)
+                or any(c[0] == ext_trn_id for c in candidates)
             ):
                 continue
 
@@ -141,8 +150,28 @@ def _scan_and_queue(th_page):
             if scraped_amount is None:
                 continue
 
-            check_resp = call_api(API_CONFIG["CHECK_URL"], {"transaction_id": ext_trn_id})
+            candidates.append((ext_trn_id, scraped_amount))
 
+        except Exception as e:
+            log.error(f"Scan error: {e}")
+
+    if not candidates:
+        return
+
+    # ---------- phase 2: API checks in parallel (no Playwright in threads) ----------
+    def _check(item):
+        return call_api(
+            API_CONFIG["CHECK_URL"],
+            {"transaction_id": item[0]},
+            timeout=CHECK_TIMEOUT,
+        )
+
+    with ThreadPoolExecutor(max_workers=min(CHECK_WORKERS, len(candidates))) as ex:
+        responses = list(ex.map(_check, candidates))
+
+    # ---------- phase 3: validate + queue ----------
+    for (ext_trn_id, scraped_amount), check_resp in zip(candidates, responses):
+        try:
             if not (check_resp.get("success") or check_resp.get("status") == "processing"):
                 _check_failed(ext_trn_id, time.time())
                 continue
@@ -182,7 +211,7 @@ def _scan_and_queue(th_page):
             log.info(f"➕ QUEUED {ext_trn_id} | Queue={len(CONFIRMATION_QUEUE)}")
 
         except Exception as e:
-            log.error(f"Scan error: {e}")
+            log.error(f"Queue error {ext_trn_id}: {e}")
 
 
 # ======================================================

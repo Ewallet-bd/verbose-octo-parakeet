@@ -16,6 +16,17 @@ from config import API_CONFIG
 log = setup_logger("withdraw", "logs/withdraw.log")
 
 
+def _request_key(row_text, bank_name, account_number, amount):
+    """
+    One key per withdraw REQUEST. Includes the whole normalized row text
+    (date/time/request id shown by the portal), so the same user withdrawing
+    the same amount twice is no longer treated as a duplicate.
+    """
+    norm = re.sub(r"\s+", " ", row_text).strip().lower()
+    unique = f"{bank_name}|{account_number}|{amount}|{norm}"
+    return hashlib.sha256(unique.encode("utf-8")).hexdigest()
+
+
 # =====================================================
 # Utility: get withdraw page
 # =====================================================
@@ -107,8 +118,7 @@ def send_withdraw_to_api(context):
             if not (bank_name and account_number and amount):
                 continue
 
-            unique = f"{bank_name}_{account_number}_{amount}"
-            h = hashlib.sha256(unique.encode()).hexdigest()
+            h = _request_key(text, bank_name, account_number, amount)
 
             if h in sent_hashes:
                 continue

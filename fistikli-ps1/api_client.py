@@ -28,7 +28,7 @@ def normalize_amount(payload: dict):
     return payload
 
 
-def call_api(url: str, payload: dict):
+def call_api(url: str, payload: dict, timeout: int = 15):
     """
     Universal API caller
     - SHA256 payload hash
@@ -63,7 +63,7 @@ def call_api(url: str, payload: dict):
             url,
             data=json_payload.encode("utf-8"),
             headers=headers,
-            timeout=15,
+            timeout=timeout,
             verify=API_CONFIG.get("VERIFY_SSL", True)
         )
 
